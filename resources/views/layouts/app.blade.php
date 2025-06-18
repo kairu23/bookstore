@@ -11,14 +11,14 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Bootstrap CSS & Vite -->
+    <!-- Bootstrap & Vite -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
 <body class="font-sans bg-gray-100 text-dark">
 
-    <!-- ✅ Bootstrap Navbar Here -->
+    <!-- ✅ Bootstrap Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('books.index') }}">📚 Bookstore</a>
@@ -34,7 +34,7 @@
                                 👤 {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">⚙️ Profile</a></li>
+                                <!-- <li><a class="dropdown-item" href="{{ route('profile.edit') }}">⚙️ Profile</a></li> -->
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -51,7 +51,7 @@
 
     <!-- ✅ Page Header -->
     @isset($header)
-        <header class="bg-white shadow-sm">
+        <header class="bg-white dark:bg-gray-800 shadow-sm">
             <div class="container py-4">
                 {{ $header }}
             </div>
@@ -65,7 +65,7 @@
         </div>
     </main>
 
-    <!-- Bootstrap Bundle -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

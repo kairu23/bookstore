@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container mt-5">
-    <div class="card bg-light border-0 shadow-lg">
-        <div class="card-body">
+    <div class="card shadow-lg border-0">
+        <div class="card-body bg-light rounded px-4 py-5">
 
             <h2 class="mb-4 text-secondary">
                 <i class="bi bi-pencil-square"></i> Edit Book
@@ -19,34 +19,41 @@
                 </div>
             @endif
 
-            <form action="{{ route('books.update', $book->id) }}" method="POST">
+            <form method="POST" action="{{ route('books.update', $book->id) }}">
                 @csrf
                 @method('PUT')
 
+                <!-- Title -->
                 <div class="mb-3">
                     <label for="title" class="form-label">📖 Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ $book->title }}" required>
+                    <input id="title" name="title" type="text" class="form-control" value="{{ old('title', $book->title) }}" required>
                 </div>
 
+                <!-- Author -->
                 <div class="mb-3">
                     <label for="author" class="form-label">✍️ Author</label>
-                    <input type="text" class="form-control" id="author" name="author" value="{{ $book->author }}" required>
+                    <input id="author" name="author" type="text" class="form-control" value="{{ old('author', $book->author) }}" required>
                 </div>
 
+                <!-- Description -->
                 <div class="mb-3">
                     <label for="description" class="form-label">📝 Description (optional)</label>
-                    <textarea class="form-control" id="description" name="description" rows="3">{{ $book->description }}</textarea>
+                    <textarea id="description" name="description" rows="3" class="form-control">{{ old('description', $book->description) }}</textarea>
                 </div>
 
+                <!-- Price -->
                 <div class="mb-3">
                     <label for="price" class="form-label">💰 Price ($)</label>
-                    <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{ $book->price }}" required>
+                    <input id="price" name="price" type="number" step="0.01" class="form-control" value="{{ old('price', $book->price) }}" required>
                 </div>
 
+                <!-- Buttons -->
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('books.index') }}" class="btn btn-outline-secondary">← Back</a>
+                    <a href="{{ route('books.index') }}" class="btn btn-outline-secondary">
+                        ← Back
+                    </a>
                     <button type="submit" class="btn btn-secondary">
-                        <i class="bi bi-check-circle"></i> Update Book
+                        <i class="bi bi-save2"></i> Update Book
                     </button>
                 </div>
             </form>
