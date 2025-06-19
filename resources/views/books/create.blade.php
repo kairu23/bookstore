@@ -48,6 +48,15 @@
                     <input type="number" step="0.01" class="form-control" id="price" name="price" required>
                 </div>
 
+                <div class="mb-3">
+                    <label for="genre" class="form-label">🎭 Genre</label>
+                    <input type="text" class="form-control" id="genre" name="genre" value="{{ old('genre') }}">
+                </div>
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">📦 Stocks</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" value="{{ old('quantity', 0) }}" min="0">
+                </div>
+
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('books.index') }}" class="btn btn-outline-secondary">
                         ← Back

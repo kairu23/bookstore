@@ -60,6 +60,21 @@
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
 
+            <!-- Role Selection -->
+            <div class="mt-4">
+                <x-input-label for="role" :value="__('Register as')" />
+                <select id="role" name="role" class="form-control" onchange="document.getElementById('admin-code-box').style.display = this.value === 'admin' ? 'block' : 'none';">
+                    <option value="customer" {{ old('role') == 'customer' ? 'selected' : '' }}>Customer</option>
+                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                </select>
+            </div>
+            <!-- Admin Code -->
+            <div class="mt-4" id="admin-code-box" style="display: {{ old('role') == 'admin' ? 'block' : 'none' }};">
+                <x-input-label for="admin_code" :value="__('Admin Code')" />
+                <x-text-input id="admin_code" class="block mt-1 w-full" type="text" name="admin_code" value="{{ old('admin_code') }}" />
+                <x-input-error :messages="$errors->get('admin_code')" class="mt-2" />
+            </div>
+
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-300 hover:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
                     {{ __('Already registered?') }}

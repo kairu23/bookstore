@@ -35,16 +35,27 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $role = $request->input('role', 'customer');
+        if ($role === 'admin') {
+            $request->validate([
+                'admin_code' => ['required', 'string', 'in:admin1'],
+            ], [
+                'admin_code.in' => 'The admin code is incorrect.'
+            ]);
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $role,
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Do not log in the user after registration
+        // Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('login')->with('status', 'Registration successful! Please log in.');
     }
 }

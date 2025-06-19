@@ -60,6 +60,14 @@
                 </a>
             </div>
 
+            <!-- Role Switcher -->
+            <div class="mb-4 text-center">
+                @if(request('role'))
+                    <span class="badge bg-info text-dark mb-2 d-block">Logging in as: <strong>{{ ucfirst(request('role')) }}</strong></span>
+                    <input type="hidden" name="role" value="{{ request('role') }}">
+                @endif
+            </div>
+
             <!-- Buttons -->
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))

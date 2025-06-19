@@ -36,6 +36,11 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
                 @auth
                     <ul class="navbar-nav">
+                        @if(Auth::user()->role === 'customer')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('cart.view') }}">🛒 View Cart</a>
+                            </li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                 👤 {{ Auth::user()->name }}

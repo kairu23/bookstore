@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('author_id')->constrained('authors')->onDelete('cascade');
+            $table->string('genre')->nullable(); // Genre of the book
+            $table->integer('quantity')->default(0); // Number of books available
             $table->text('description')->nullable();
             $table->decimal('price', 8, 2);
             $table->timestamps();

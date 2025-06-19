@@ -53,6 +53,8 @@ public function index(Request $request)
         $request->validate([
             'title' => 'required',
             'price' => 'required|numeric',
+            'genre' => 'nullable|string',
+            'quantity' => 'nullable|integer',
         ]);
 
         $authorId = $request->author_id;
@@ -64,6 +66,8 @@ public function index(Request $request)
         Book::create([
             'title' => $request->title,
             'author_id' => $authorId,
+            'genre' => $request->genre,
+            'quantity' => $request->quantity,
             'description' => $request->description,
             'price' => $request->price,
         ]);

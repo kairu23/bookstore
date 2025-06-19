@@ -48,6 +48,8 @@
                 <tr>
                     <th>Title</th>
                     <th>Author</th>
+                    <th>Genre</th>
+                    <th>Stocks</th>
                     <th>Price</th>
                     <th width="150">Actions</th>
                 </tr>
@@ -57,6 +59,8 @@
                 <tr>
                     <td>{{ $book->title }}</td>
                     <td>{{ $book->author ? $book->author->name : '' }}</td>
+                    <td>{{ $book->genre }}</td>
+                    <td>{{ $book->quantity }}</td>
                     <td>${{ $book->price }}</td>
                     <td>
                         <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-warning">Edit</a>

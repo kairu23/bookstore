@@ -25,10 +25,24 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user();
+        $role = $request->input('role');
+
+        // Restrict customers from accessing admin dashboard
+        if ($role === 'admin' && $user->role !== 'admin') {
+            Auth::logout();
+            return redirect()->route('login', ['role' => 'admin'])
+                ->withErrors(['email' => 'You are not authorized to log in as admin.']);
+        }
+
+        // Redirect based on role
+        if ($user->role === 'admin') {
+            return redirect()->intended(route('dashboard', absolute: false));
+        } else {
+            return redirect()->intended(route('customer.dashboard', absolute: false));
+        }
     }
 
     /**
