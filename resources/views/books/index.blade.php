@@ -11,10 +11,10 @@
         </div>
 
         <div class="col-md-3">
-            <select name="author" class="form-select">
+            <select name="author_id" class="form-select" required>
                 <option value="">Filter by author</option>
                 @foreach($authors as $a)
-                    <option value="{{ $a }}" {{ request('author') == $a ? 'selected' : '' }}>{{ $a }}</option>
+                    <option value="{{ $a->id }}" {{ request('author') == $a->id ? 'selected' : '' }}>{{ $a->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -56,7 +56,7 @@
                 @foreach($books as $book)
                 <tr>
                     <td>{{ $book->title }}</td>
-                    <td>{{ $book->author }}</td>
+                    <td>{{ $book->author ? $book->author->name : '' }}</td>
                     <td>${{ $book->price }}</td>
                     <td>
                         <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-warning">Edit</a>

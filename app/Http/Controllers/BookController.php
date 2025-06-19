@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -10,19 +11,21 @@ public function index(Request $request)
 {
     $search = $request->query('search');
     $author = $request->query('author');
-    $sort   = $request->query('sort'); // title_asc, title_desc, price_asc, etc.
+    $sort   = $request->query('sort');
 
-    $books = Book::query();
+    $books = Book::with('author');
 
     if ($search) {
         $books->where(function ($q) use ($search) {
-            $q->where('title', 'like', "%{$search}%")
-              ->orWhere('author', 'like', "%{$search}%");
+            $q->where('title', 'like', "%{$search}%");
+        });
+        $books->orWhereHas('author', function($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%");
         });
     }
 
     if ($author) {
-        $books->where('author', $author);
+        $books->where('author_id', $author);
     }
 
     if ($sort === 'title_asc') {
@@ -36,39 +39,60 @@ public function index(Request $request)
     }
 
     $books = $books->get();
-    $authors = Book::select('author')->distinct()->pluck('author');
+    $authors = Author::all();
 
     return view('books.index', compact('books', 'search', 'author', 'sort', 'authors'));
 }
 
-
     public function create() {
-        return view('books.create');
+        $authors = Author::all();
+        return view('books.create', compact('authors'));
     }
 
     public function store(Request $request) {
         $request->validate([
             'title' => 'required',
-            'author' => 'required',
             'price' => 'required|numeric',
         ]);
 
-        Book::create($request->all());
+        $authorId = $request->author_id;
+        if ($request->filled('new_author')) {
+            $author = Author::firstOrCreate(['name' => $request->new_author]);
+            $authorId = $author->id;
+        }
+
+        Book::create([
+            'title' => $request->title,
+            'author_id' => $authorId,
+            'description' => $request->description,
+            'price' => $request->price,
+        ]);
         return redirect()->route('books.index')->with('success', 'Book added!');
     }
 
     public function edit(Book $book) {
-        return view('books.edit', compact('book'));
+        $authors = Author::all();
+        return view('books.edit', compact('book', 'authors'));
     }
 
     public function update(Request $request, Book $book) {
         $request->validate([
             'title' => 'required',
-            'author' => 'required',
             'price' => 'required|numeric',
         ]);
 
-        $book->update($request->all());
+        $authorId = $request->author_id;
+        if ($request->filled('new_author')) {
+            $author = Author::firstOrCreate(['name' => $request->new_author]);
+            $authorId = $author->id;
+        }
+
+        $book->update([
+            'title' => $request->title,
+            'author_id' => $authorId,
+            'description' => $request->description,
+            'price' => $request->price,
+        ]);
         return redirect()->route('books.index')->with('success', 'Book updated!');
     }
 

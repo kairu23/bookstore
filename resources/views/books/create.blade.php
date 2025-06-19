@@ -28,8 +28,14 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="author" class="form-label">✍️ Author</label>
-                    <input type="text" class="form-control" id="author" name="author" required>
+                    <label for="author_id" class="form-label">✍️ Author</label>
+                    <select id="author_id" name="author_id" class="form-control mb-2">
+                        <option value="">Select Existing Author</option>
+                        @foreach($authors as $author)
+                            <option value="{{ $author->id }}" {{ old('author_id') == $author->id ? 'selected' : '' }}>{{ $author->name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="text" name="new_author" class="form-control" placeholder="Or enter new author name" value="{{ old('new_author') }}">
                 </div>
 
                 <div class="mb-3">

@@ -31,8 +31,14 @@
 
                 <!-- Author -->
                 <div class="mb-3">
-                    <label for="author" class="form-label">✍️ Author</label>
-                    <input id="author" name="author" type="text" class="form-control" value="{{ old('author', $book->author) }}" required>
+                    <label for="author_id" class="form-label">✍️ Author</label>
+                    <select id="author_id" name="author_id" class="form-control mb-2">
+                        <option value="">Select Existing Author</option>
+                        @foreach($authors as $author)
+                            <option value="{{ $author->id }}" {{ old('author_id', $book->author_id ?? '') == $author->id ? 'selected' : '' }}>{{ $author->name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="text" name="new_author" class="form-control" placeholder="Or enter new author name" value="{{ old('new_author') }}">
                 </div>
 
                 <!-- Description -->
